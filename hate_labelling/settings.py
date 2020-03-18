@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'articles',
 ]
 
 MIDDLEWARE = [
@@ -76,8 +77,22 @@ DATABASES = {
    'default': {
        'ENGINE': 'djongo',
        'NAME': 'hatespeech-labelling',
+       'CLIENT': {
+            'host': 'localhost',
+            'port': 27018,
+       }
    }
 }
+
+# TODO: This is a horrible hack, but well...
+
+from mongoengine import connect
+
+connect(
+    DATABASES['default']['NAME'],
+    host=DATABASES['default']['CLIENT']['host'],
+    port=DATABASES['default']['CLIENT']['port'],
+)
 
 
 # Password validation
