@@ -1,0 +1,15 @@
+{% load static %}
+
+<h1> {{article.text}} </h1>
+
+<p> {{article.body}} </p>
+
+<h2> Comments </h2>
+
+<ul>
+{% for comment in article.comments %}
+  <li>
+    {{ forloop.counter0 }} -- {{comment.text}}
+  </li>
+{% endfor %}
+</ul>
