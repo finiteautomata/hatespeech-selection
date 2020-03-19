@@ -79,7 +79,7 @@ DATABASES = {
        'NAME': 'hatespeech-labelling',
        'CLIENT': {
             'host': 'localhost',
-            'port': 27018,
+            'port': 27017,
        }
    }
 }
