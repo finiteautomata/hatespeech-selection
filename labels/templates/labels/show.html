@@ -1,0 +1,38 @@
+{% load static %}
+
+<h1> {{article.text}} </h1>
+
+<p> {{article.body}} </p>
+
+<h2> Comments </h2>
+
+<form>
+<ul>
+
+{% for comment in article.comments %}
+  <li>
+    <p>
+    {{ forloop.counter0 }} -- {{comment.text}}
+    </p>
+    <input type="checkbox"/>
+    <label for="toxic_{{ forloop.counter0 }}"> Tóxico
+    </label>
+
+    <input type="checkbox"/>
+    <label for="toxic_{{ forloop.counter0 }}"> Misógino
+    </label>
+
+
+    <input type="checkbox"/>
+    <label for="toxic_{{ forloop.counter0 }}"> Racista
+    </label>
+
+    <input type="checkbox"/>
+    <label for="toxic_{{ forloop.counter0 }}"> ¿Necesita contexto?
+    </label>
+
+  </li>
+{% endfor %}
+</ul>
+<input type="submit"/>
+</form>

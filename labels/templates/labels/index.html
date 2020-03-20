@@ -1,0 +1,13 @@
+{% load static %}
+
+<div>
+  Etiquetaste hasta el momento {{labeled_count}} noticias.
+</div>
+
+<div>
+  Te faltan {{left_count}} noticias.
+</div>
+
+<div>
+  <a href="{% url 'labels:show' next_article.id %}">Seguí etiquetando!</a>
+</div>
