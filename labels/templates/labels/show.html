@@ -3,41 +3,66 @@
 {% block content %}
 
 
-<h1> {{article.text}} </h1>
+<h3> Tweet  </h3>
+
+<p> {{article.text}} </p>
+
+<h3> Noticia </h3>
 
 <p> {{article.body}} </p>
 
-<h2> Comments </h2>
+<h2> Etiquetado </h2>
+
+<p>
+  Marcá si un comentario te parece que:
+
+  <ul>
+    <li> Es tóxico </li>
+    <li> Contiene misoginia </li>
+    <li> Contiene racismo </li>
+    <li> En caso de alguno de los tres casos, si necesita el contexto de la nota para que se entienda</li>
+  </ul>
+</p>
+
+<h3> Comentarios </h3>
 
 <form action="label/" method="post">
-<ul>
+<ol>
 
 {% for comment in article.comments %}
   <li>
-    <p>
-    {{ forloop.counter0 }} -- {{comment.text}}
-    </p>
-    <input type="checkbox"/>
-    <label for="toxic_{{ forloop.counter0 }}"> Tóxico
-    </label>
+    {{comment.text}}
 
-    <input type="checkbox"/>
-    <label for="mysoginistic_{{ forloop.counter0 }}"> Misógino
-    </label>
+    <div class="row">
+      <div class="two columns">
+        <input type="checkbox"/>
+        <label for="toxic_{{ forloop.counter0 }}"> Tóxico
+        </label>
+      </div>
 
+      <div class="two columns">
 
-    <input type="checkbox"/>
-    <label for="racist_{{ forloop.counter0 }}"> Racista
-    </label>
+        <input type="checkbox"/>
+        <label for="mysoginistic_{{ forloop.counter0 }}"> Misógino
+        </label>
+      </div>
+      <div class="two columns">
 
-    <input type="checkbox"/>
-    <label for="needs_context{{ forloop.counter0 }}"> ¿Necesita contexto?
-    </label>
+        <input type="checkbox"/>
+        <label for="racist_{{ forloop.counter0 }}"> Racista
+        </label>
+      </div>
+      <div class="two columns">
 
+        <input type="checkbox"/>
+        <label for="needs_context{{ forloop.counter0 }}"> ¿Necesita contexto?
+        </label>
+      </div>
+    </div>
   </li>
 {% endfor %}
-</ul>
-<input type="submit"/>
+<input type="submit" class="button-primary" value="Finalizar"/>
+</ol>
 </form>
 
 {% endblock %}
