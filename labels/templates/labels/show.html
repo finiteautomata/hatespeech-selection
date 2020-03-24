@@ -1,4 +1,7 @@
-{% load static %}
+{% extends 'base.html' %}
+
+{% block content %}
+
 
 <h1> {{article.text}} </h1>
 
@@ -6,7 +9,7 @@
 
 <h2> Comments </h2>
 
-<form>
+<form action="label/" method="post">
 <ul>
 
 {% for comment in article.comments %}
@@ -19,16 +22,16 @@
     </label>
 
     <input type="checkbox"/>
-    <label for="toxic_{{ forloop.counter0 }}"> Misógino
+    <label for="mysoginistic_{{ forloop.counter0 }}"> Misógino
     </label>
 
 
     <input type="checkbox"/>
-    <label for="toxic_{{ forloop.counter0 }}"> Racista
+    <label for="racist_{{ forloop.counter0 }}"> Racista
     </label>
 
     <input type="checkbox"/>
-    <label for="toxic_{{ forloop.counter0 }}"> ¿Necesita contexto?
+    <label for="needs_context{{ forloop.counter0 }}"> ¿Necesita contexto?
     </label>
 
   </li>
@@ -36,3 +39,5 @@
 </ul>
 <input type="submit"/>
 </form>
+
+{% endblock %}

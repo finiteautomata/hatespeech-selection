@@ -27,3 +27,7 @@ class LabelNews(LoginRequiredMixin, View):
         return render(request, 'labels/show.html', {
             'article': article,
         })
+
+    def post(self, request):
+        import ipdb; ipdb.set_trace()
+        pass

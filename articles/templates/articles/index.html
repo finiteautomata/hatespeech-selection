@@ -1,4 +1,6 @@
-{% load static %}
+{% extends 'base.html' %}
+
+{% block content %}
 
 <div>
   Etiquetaste hasta el momento {{labeled_count}} noticias.
@@ -14,3 +16,4 @@
     <li><a href="{% url 'articles:show' article.id %}">{{article.created_at}} -- {{ article.text }}</a></li>
 {% endfor %}
 </ul>
+{% endblock %}

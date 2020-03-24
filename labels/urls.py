@@ -6,5 +6,6 @@ app_name = 'labels'
 
 urlpatterns = [
     path('', views.LabelsIndex.as_view(), name='index'),
-    path('<str:article_id>/', views.LabelNews.as_view(), name='show'),
+    path('label/<str:article_id>/', views.LabelNews.as_view(), name='show'),
+    path('label', views.LabelNews.as_view(), name="create")
 ]

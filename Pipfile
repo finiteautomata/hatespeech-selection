@@ -12,6 +12,7 @@ django = "==2.2.8"
 hatespeech-models = {editable = true,path = "./hatespeech-models"}
 djongo = "*"
 blinker = "*"
+ipdb = "*"
 
 [requires]
 python_version = "3.6"
