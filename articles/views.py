@@ -9,10 +9,16 @@ from hatespeech_models import Article
 
 class ArticleIndexView(LoginRequiredMixin, View):
     def get(self, request):
+        articles = Article.objects.order_by('created_at').only(
+            'created_at',
+            'text',
+            'id',
+        )
+
         return render(request, 'articles/index.html', {
             'labeled_count': 0,
             'left_count': Article.objects.count(),
-            'articles': Article.objects.order_by('created_at'),
+            'articles': articles,
         })
 
 class ArticleView(LoginRequiredMixin, View):
