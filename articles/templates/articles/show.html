@@ -2,11 +2,17 @@
 
 {% block content %}
 
-<h1> {{article.text}} </h1>
+<a href="{% url 'labels:show' article.id %}"> Mostrar vista etiquetado </a>
+
+<h3> Tweet  </h3>
+
+<p> {{article.text}} </p>
+
+<h3> Noticia </h3>
 
 <p> {{article.body}} </p>
 
-<h2> Comments </h2>
+<h2> Comentarios </h2>
 
 <ul>
 {% for comment in article.comments %}
