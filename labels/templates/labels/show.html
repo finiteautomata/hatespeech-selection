@@ -8,14 +8,14 @@
   background-color: #ffffff;
   margin: 0px;
   padding: 0px;
-  width: 70%;
-  min-width: 300px;
+  /*width: 70%;
+  min-width: 300px;*/
 }
 
 /* Style the input fields */
 input {
-  padding: 10px;
-  width: 100%;
+  /*padding: 10px;
+  width: 100%;*/
   font-size: 17px;
   font-family: Raleway;
   border: 1px solid #aaaaaa;
@@ -158,36 +158,64 @@ function fixStepIndicator(n) {
 
 {% for comment in article.comments %}
   <div class="tab">
+    <p>
+
     {{comment.text}}
+    </p>
     <div class="row">
+
+
       <div class="three columns">
-        <input type="checkbox"/>
-        <label for="toxic_{{ forloop.counter0 }}"> Tóxico
+        <p> ¿Es un comentario tóxico? </p>
+        <label>
+          <input type="radio"/>
+          <span class="label-body"> Sí </span>
+        </label>
+        <label>
+          <input type="radio"/>
+          <span class="label-body"> No </span>
         </label>
       </div>
 
       <div class="three columns">
-
-        <input type="checkbox"/>
-        <label for="mysoginistic_{{ forloop.counter0 }}"> Misógino
+        <p> ¿Contiene misoginia? </p>
+        <label>
+          <input type="radio"/>
+          <span class="label-body"> Sí </span>
+        </label>
+        <label>
+          <input type="radio"/>
+          <span class="label-body"> No </span>
         </label>
       </div>
-      <div class="three columns">
 
-        <input type="checkbox"/>
-        <label for="racist_{{ forloop.counter0 }}"> Racista
+      <div class="three columns">
+        <p> ¿Contiene racismo? </p>
+        <label>
+          <input type="radio"/>
+          <span class="label-body"> Sí </span>
+        </label>
+        <label>
+          <input type="radio"/>
+          <span class="label-body"> No </span>
         </label>
       </div>
-      <div class="three columns">
 
-        <input type="checkbox"/>
-        <label for="needs_context{{ forloop.counter0 }}"> ¿Necesita contexto?
+      <div class="three columns">
+        <p> ¿Necesita contexto? </p>
+        <label>
+          <input type="radio"/>
+          <span class="label-body"> Sí </span>
+        </label>
+        <label>
+          <input type="radio"/>
+          <span class="label-body"> No </span>
         </label>
       </div>
 
     </div>
 
-    <div style="two columns">
+    <div class="row">
       <div style="">
         <button type="button" id="prevBtn" onclick="nextPrev(-1)">Anterior</button>
         <button type="button" id="nextBtn" onclick="nextPrev(1)">Siguiente</button>
@@ -196,7 +224,7 @@ function fixStepIndicator(n) {
 
   </div>
 {% endfor %}
-<input type="submit" class="button-primary" value="Finalizar"/>
+{# <input type="submit" class="button-primary" value="Finalizar"/> #}
 </form>
 <script>
 var currentTab = 0;
