@@ -13,6 +13,10 @@ hatespeech-models = {editable = true,path = "./hatespeech-models"}
 djongo = "*"
 blinker = "*"
 ipdb = "*"
+pandas = "*"
+jupyterlab = "*"
+matplotlib = "*"
+seaborn = "*"
 
 [requires]
 python_version = "3.6"
