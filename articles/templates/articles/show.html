@@ -5,7 +5,7 @@
 <a class="button-primary button" href="{% url 'labels:show' article.id %}"> Mostrar vista etiquetado </a>
 
 <h3> Tweet  </h3>
-
+<h4> @{{article.user}} </h4>
 <p> {{article.text}} </p>
 
 <h3> Noticia </h3>
@@ -16,9 +16,17 @@
 
 <ul>
 {% for comment in article.comments %}
+  {% if comment.hateful_value > 0.5 %}
+      <li>
+        <strong>
+        {{ forloop.counter0 }} ({{comment.hateful_value|floatformat:-2}}) -- {{comment.text}}
+        </strong>
+      </li>
+  {% else %}
   <li>
-    {{ forloop.counter0 }} -- {{comment.text}}
+    {{ forloop.counter0 }} ({{comment.hateful_value|floatformat:-2}}) -- {{comment.text}}
   </li>
+  {% endif %}
 {% endfor %}
 </ul>
 
