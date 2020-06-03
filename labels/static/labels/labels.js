@@ -1,3 +1,4 @@
+
 function showTab(n) {
   // This function will display the specified tab of the form ...
   var x = document.getElementsByClassName("tab");
@@ -8,30 +9,49 @@ function showTab(n) {
   } else {
     document.getElementById("nextBtn").innerHTML = "Siguiente";
   }
-  // ... and run a function that displays the correct step indicator:
-  //fixStepIndicator(n)
 }
 
-function canGoToNextTweet() {
+function saveLabel(obj) {
+  xmlhttp = new XMLHttpRequest();
+  // FIX: this is awful
+  xmlhttp.open("POST", "/label");
+  xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xmlhttp.setRequestHeader("X-CSRFToken", csrftoken);
+  xmlhttp.onload = () => alert("HOLA");
+  xmlhttp.send(JSON.stringify(obj));
+}
+
+function formCheck() {
   var x = document.getElementsByClassName("tab");
   var thisTab = x[currentTab];
 
-  var checkedHateSpeech = thisTab.querySelectorAll("input[name=odio]:checked").length > 0
-  var checkedProfanity = thisTab.querySelectorAll("input[name=profanidad]:checked").length > 0
+  var labels = thisTab.querySelectorAll('.labels');
 
-  return checkedProfanity && checkedHateSpeech;
+  var ret = true;
+  var msg = "";
+  for (let label_div of labels) {
+    let label_name = label_div.getAttribute("data-label");
+    console.log("Checking ", label_name);
+
+    if (label_div.querySelectorAll("input:checked").length == 0) {
+      ret = false;
+      msg += label_div.querySelector("p").textContent;
+    }
+  }
+
+  if (!ret) {
+    alert("Faltan etiquetar "+msg);
+  }
+  return ret;
 }
 
 
-function nextPrev(n) {
+function nextTweet() {
   // This function will figure out which tab to display
   var x = document.getElementsByClassName("tab");
-  debugger;
   // Exit the function if any field in the current tab is invalid:
-  if (n == 1 && !validateForm()) return false;
-  // Hide the current tab:
 
-  if (!canGoToNextTweet())
+  if (!formCheck())
     return false;
 
   x[currentTab].style.display = "none";
@@ -46,37 +66,4 @@ function nextPrev(n) {
   }
   // Otherwise, display the correct tab:
   showTab(currentTab);
-}
-
-function validateForm() {
-  // This function deals with validation of the form fields
-  var x, y, i, valid = true;
-  x = document.getElementsByClassName("tab");
-  y = x[currentTab].getElementsByTagName("input");
-  // A loop that checks every input field in the current tab:
-  for (i = 0; i < y.length; i++) {
-    // If a field is empty...
-    if (y[i].value == "") {
-      // add an "invalid" class to the field:
-      y[i].className += " invalid";
-      // and set the current valid status to false:
-      valid = false;
-    }
-  }
-  // If the valid status is true, mark the step as finished and valid:
-  if (valid) {
-    // TODO: Check if we have to change this
-    //document.getElementsByClassName("step")[currentTab].className += " finish";
-  }
-  return valid; // return the valid status
-}
-
-function fixStepIndicator(n) {
-  // This function removes the "active" class of all steps...
-  var i, x = document.getElementsByClassName("step");
-  for (i = 0; i < x.length; i++) {
-    x[i].className = x[i].className.replace(" active", "");
-  }
-  //... and adds the "active" class to the current step:
-  x[n].className += " active";
 }
