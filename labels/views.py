@@ -1,11 +1,13 @@
+import json
 from django.http import Http404
 from django.views import View
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from django.http import JsonResponse
 from hate_labelling.helpers import get_article_or_404
-from mongoengine.connection import get_db
-from mongoengine import DoesNotExist
+from .models import Label
+from mongoengine import DoesNotExist, ValidationError
 from hatespeech_models import Article
 
 class LabelsIndex(LoginRequiredMixin, View):
@@ -29,5 +31,8 @@ class LabelNews(LoginRequiredMixin, View):
         })
 
     def post(self, request):
-        import ipdb; ipdb.set_trace()
-        pass
+        try:
+            body = json.loads(request.body)
+            return JsonResponse({}, status=200)
+        except ValidationError as e:
+            return JsonResponse

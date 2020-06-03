@@ -11,14 +11,33 @@ function showTab(n) {
   }
 }
 
-function saveLabel(obj) {
+function saveLabel() {
   xmlhttp = new XMLHttpRequest();
   // FIX: this is awful
   xmlhttp.open("POST", "/label");
   xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xmlhttp.setRequestHeader("X-CSRFToken", csrftoken);
-  xmlhttp.onload = () => alert("HOLA");
-  xmlhttp.send(JSON.stringify(obj));
+  // Callbacks
+  xmlhttp.onload = labelSaved;
+  xmlhttp.send(JSON.stringify({}));
+}
+
+function labelSaved() {
+  var x = document.getElementsByClassName("tab");
+  var thisTab = x[currentTab];
+
+  x[currentTab].style.display = "none";
+
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + 1;
+  // if you have reached the end of the form... :
+  if (currentTab >= x.length) {
+    //...the form gets submitted:
+    location.href = "/";
+  }
+  else {
+    showTab(currentTab);
+  }
 }
 
 function formCheck() {
@@ -54,16 +73,5 @@ function nextTweet() {
   if (!formCheck())
     return false;
 
-  x[currentTab].style.display = "none";
-
-  // Increase or decrease the current tab by 1:
-  currentTab = currentTab + n;
-  // if you have reached the end of the form... :
-  if (currentTab >= x.length) {
-    //...the form gets submitted:
-    document.getElementById("regForm").submit();
-    return false;
-  }
-  // Otherwise, display the correct tab:
-  showTab(currentTab);
+  saveLabel();
 }
