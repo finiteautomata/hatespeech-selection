@@ -1,3 +1,6 @@
+class LabelController {
+
+}
 
 function showTab(n) {
   // This function will display the specified tab of the form ...
@@ -11,15 +14,13 @@ function showTab(n) {
   }
 }
 
+
 function saveLabel() {
-  xmlhttp = new XMLHttpRequest();
-  // FIX: this is awful
-  xmlhttp.open("POST", "/label");
-  xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xmlhttp.setRequestHeader("X-CSRFToken", csrftoken);
-  // Callbacks
-  xmlhttp.onload = labelSaved;
-  xmlhttp.send(JSON.stringify({}));
+  var x = document.getElementsByClassName("tab");
+  var thisTab = x[currentTab];
+  var label = Label.createFromTab(thisTab);
+
+  label.save(labelSaved, labelErr);
 }
 
 function labelSaved() {
@@ -38,6 +39,10 @@ function labelSaved() {
   else {
     showTab(currentTab);
   }
+}
+
+function labelErr() {
+  alert("Hubo un error guardando esta etiqueta");
 }
 
 function formCheck() {
