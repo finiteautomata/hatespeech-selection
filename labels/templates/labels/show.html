@@ -39,7 +39,7 @@
 <form action="label/" method="post" id="regForm">
 
 {% for comment in article.comments %}
-  <div class="tab" data-tweet-id="{{comment.tweet_id}}">
+  <div class="tab" data-article-id={{article.id}} data-tweet-id="{{comment.tweet_id}}">
     <p>
 
     {{comment.text}}
@@ -49,12 +49,12 @@
       <div class="four columns labels" data-label="profanity">
         <p> ¿Contiene profanidad? </p>
         <label>
-          <input name="profanity" type="radio" value="si"/>
-          <span class="label-body" for="si"> Sí </span>
+          <input name="profanity" type="radio" value="1"/>
+          <span class="label-body" for="1"> Sí </span>
         </label>
         <label>
-          <input name="profanity" type="radio" value="no"/>
-          <span class="label-body" for="no"> No </span>
+          <input name="profanity" type="radio" value="0"/>
+          <span class="label-body" for="0"> No </span>
         </label>
       </div>
 
@@ -62,12 +62,12 @@
       <div class="four columns labels" data-label="hate">
         <p> ¿Contiene discurso de odio? </p>
         <label>
-          <input name="hate" type="radio" value="si"/>
-          <span class="label-body" for="si"> Sí </span>
+          <input name="hate" type="radio" value="1"/>
+          <span class="label-body" for="1"> Sí </span>
         </label>
         <label>
-          <input name="hate" type="radio" value="no"/>
-          <span class="label-body" for="no"> No </span>
+          <input name="hate" type="radio" value="0"/>
+          <span class="label-body" for="0"> No </span>
         </label>
       </div>
     </div>

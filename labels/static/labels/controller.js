@@ -48,14 +48,13 @@ class LabelController {
 
     var label = Label.createFromTab(this.currentTab);
     label.save(
-      () => this.labelSaved(),
-      () => this.labelErr()
+      (req) => this.labelSaved(req),
+      (req) => this.labelErr(req)
     );
   }
 
-  labelSaved() {
+  labelSaved(xmlhttp) {
     var numTabs = document.getElementsByClassName("tab").length;
-    debugger;
     this.currentTab.style.display = "none";
     this.n += 1;
     // if you have reached the end of the form... :
@@ -68,7 +67,7 @@ class LabelController {
     }
   }
 
-  labelErr() {
+  labelErr(xmlhttp) {
     alert("Hubo un error guardando esta etiqueta");
   }
 

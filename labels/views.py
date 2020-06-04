@@ -30,7 +30,8 @@ class LabelNews(LoginRequiredMixin, View):
             'article': article,
         })
 
-    def post(self, request):
+    def post(self, request, article_id):
+        article = get_article_or_404(article_id)
         try:
             body = json.loads(request.body)
             return JsonResponse({}, status=200)
