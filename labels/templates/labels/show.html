@@ -5,9 +5,9 @@
 
 <link rel="stylesheet" href="{% static 'labels/labels.css' %}"> </link>
 <script src="{% static 'labels/csrf.js' %}" type="text/javascript"> </script>
+<script src="{% static 'labels/controller.js' %}" type="text/javascript"> </script>
 <script src="{% static 'labels/model.js' %}" type="text/javascript"> </script>
 
-<script src="{% static 'labels/labels.js' %}" type="text/javascript"> </script>
 
 {% endblock %}
 
@@ -74,7 +74,7 @@
 
     <div class="row">
       <div style="">
-        <button type="button" id="nextBtn" onclick="nextTweet()">Siguiente</button>
+        <button type="button" class="next" onclick="controller.nextTweet()">Siguiente</button>
       </div>
     </div>
     <br/>
@@ -86,10 +86,12 @@
 {# <input type="submit" class="button-primary" value="Finalizar"/> #}
 </form>
 <script>
-var currentTab = 0;
 window.addEventListener('load', function () {
-  console.log(document.getElementsByClassName('tab').length);
-  showTab(currentTab); // Display the current tab
+  console.log("Hay " + document.getElementsByClassName('tab').length + " tweets");
+
+  controller = new LabelController();
+
+  controller.showTab(); // Display the current tab
 })
 
 </script>
