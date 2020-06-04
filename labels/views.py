@@ -24,7 +24,6 @@ class LabelsIndex(LoginRequiredMixin, View):
         })
 
 class LabelNews(LoginRequiredMixin, View):
-
     def get(self, request, article_id):
         article = get_article_or_404(article_id)
         return render(request, 'labels/show.html', {

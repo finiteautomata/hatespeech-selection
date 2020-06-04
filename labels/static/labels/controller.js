@@ -72,7 +72,8 @@ class LabelController {
   }
 
   labelErr(xmlhttp) {
-    alert("Hubo un error guardando esta etiqueta");
+    var response = JSON.parse(xmlhttp.response);
+    alert("Hubo un error guardando esta etiqueta: "+response.error);
   }
 
 }
