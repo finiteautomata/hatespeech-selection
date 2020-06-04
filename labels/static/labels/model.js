@@ -15,14 +15,20 @@ class Label {
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xmlhttp.setRequestHeader("X-CSRFToken", csrftoken);
     // Callbacks
-    xmlhttp.onload = () => successCallback(this);
-    xmlhttp.onerror = () => errCallback(this);
+    xmlhttp.onload = function(){
+      successCallback(this);
+    };
+    xmlhttp.onerror = function(){
+      errCallback(this);
+    };
 
-    xmlhttp.send(JSON.stringify({
-      tweet_id: this.tweet,
+    var info = {
+      tweet_id: this.tweet_id,
       hateful: this.hateful,
       profanity: this.profanity,
-    }));
+    }
+
+    xmlhttp.send(JSON.stringify(info));
   }
 
   static createFromTab(tab) {

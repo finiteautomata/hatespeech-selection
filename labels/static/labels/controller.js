@@ -48,12 +48,16 @@ class LabelController {
 
     var label = Label.createFromTab(this.currentTab);
     label.save(
-      (req) => this.labelSaved(req),
+      (req) => this.onload(req),
       (req) => this.labelErr(req)
     );
   }
 
-  labelSaved(xmlhttp) {
+  onload(xmlhttp) {
+    if (xmlhttp.status >= 400){
+      return this.labelErr(xmlhttp);
+    }
+
     var numTabs = document.getElementsByClassName("tab").length;
     this.currentTab.style.display = "none";
     this.n += 1;

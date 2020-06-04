@@ -7,7 +7,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from hate_labelling.helpers import get_article_or_404
 from .models import Label
-from mongoengine import DoesNotExist, ValidationError
+from bson.objectid import ObjectId
+from mongoengine import DoesNotExist, ValidationError, NotUniqueError
 from hatespeech_models import Article
 
 class LabelsIndex(LoginRequiredMixin, View):
@@ -34,6 +35,18 @@ class LabelNews(LoginRequiredMixin, View):
         article = get_article_or_404(article_id)
         try:
             body = json.loads(request.body)
+            label = Label(
+                user_id=request.user.id,
+                tweet_id=body["tweet_id"],
+                profane=bool(int(body["profanity"])),
+                hateful=bool(int(body["hateful"])),
+            )
+
+            label.save()
             return JsonResponse({}, status=200)
-        except ValidationError as e:
-            return JsonResponse
+        except (ValidationError, NotUniqueError) as e:
+            return JsonResponse({"error": str(e)}, status=400)
+        except KeyError as e:
+            return JsonResponse({
+                "error": e.message,
+            }, status=400)

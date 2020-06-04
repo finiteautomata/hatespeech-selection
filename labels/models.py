@@ -13,14 +13,15 @@ from mongoengine import (
 from hatespeech_models import Article
 
 class Label(DynamicDocument):
-    # Link to the article
-    article_id = ReferenceField(Article)
     # Link to the comment
-    tweet_id = LongField(required=True)
-    user_id = ObjectIdField(required=True)
+    tweet_id = LongField(required=True, unique_with="user_id")
+    hateful = BooleanField(required=True)
+    profane = BooleanField(required=True)
+    user_id = LongField(required=True)
 
     meta = {
         'indexes': [
-            'article_id'
+            'article_id',
+            'user_id'
         ]
     }
