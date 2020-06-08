@@ -1,9 +1,8 @@
 import json
 from django.http import Http404
 from django.views import View
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
 from django.http import JsonResponse
 from hate_labelling.helpers import get_article_or_404
 from .models import Label
@@ -23,12 +22,28 @@ class LabelsIndex(LoginRequiredMixin, View):
             'next_article': self.next_article_to_label(),
         })
 
+class DeleteMyLabels(LoginRequiredMixin, View):
+    def post(self, request):
+        """
+        Remove all labels from authenticated user
+        """
+        Label.objects(user_id=request.user.id).delete()
+
+        return redirect("/")
+
+
 class LabelNews(LoginRequiredMixin, View):
     def get(self, request, article_id):
         article = get_article_or_404(article_id)
+        comments = self.get_non_labelled_comments(request.user, article)
+
         return render(request, 'labels/show.html', {
             'article': article,
+            'comments': comments,
         })
+
+    def get_non_labelled_comments(self, user, article):
+        return article.comments
 
     def post(self, request, article_id):
         article = get_article_or_404(article_id)

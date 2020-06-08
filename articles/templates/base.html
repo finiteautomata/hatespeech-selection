@@ -43,9 +43,16 @@
           <a class="button u-full-width" href="{% url 'articles:index' %}"> Ver artículos </a>
         </div>
         <div class="row full-width">
-
           <a class="button u-full-width" href="#"> Guía de etiquetado </a>
         </div>
+        <br/>
+        ---
+        <br/>
+        <form action="{% url 'labels:delete_all'%}" method="post">
+          {% csrf_token %}
+          {{ form }}
+          <input type="submit" value="Borrar mis etiquetas" style="background-color:red">
+        </form>
 
         <br/>
         ---

@@ -25,3 +25,13 @@ class Label(DynamicDocument):
             'user_id'
         ]
     }
+
+class NewsAssignment(DynamicDocument):
+    """
+    This models the assignation of news to a labeler
+
+    For the time being, it has to be created by hand
+    """
+    user_id = LongField(required=True)
+
+    
