@@ -46,7 +46,9 @@ class LabelController {
     if (!this.formCheck())
       return false;
 
+
     var label = Label.createFromTab(this.currentTab);
+    this.currentTab.style.display = "none";
     label.save(
       (req) => this.onload(req),
       (req) => this.labelErr(req)
