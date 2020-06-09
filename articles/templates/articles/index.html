@@ -13,7 +13,7 @@
 
 <ul>
 {% for article in articles %}
-    <li><a href="{% url 'articles:show' article.id %}">{{article.created_at}} | @{{article.user}} -- {{ article.text }}</a></li>
+    <li><a href="{% url 'articles:show' article.slug %}">{{article.created_at}} | @{{article.user}} -- {{ article.text }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

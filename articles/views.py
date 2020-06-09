@@ -15,6 +15,7 @@ class ArticleIndexView(LoginRequiredMixin, View):
             'text',
             'id',
             'user',
+            'slug',
         )
 
         return render(request, 'articles/index.html', {
@@ -24,9 +25,9 @@ class ArticleIndexView(LoginRequiredMixin, View):
         })
 
 class ArticleView(LoginRequiredMixin, View):
-    def get(self, request, article_id):
+    def get(self, request, article_slug):
         try:
-            article = Article.objects.get(id=article_id)
+            article = Article.objects.get(slug=article_slug)
         except DoesNotExist:
             raise Http404("Article does not exist")
         return render(request, 'articles/show.html', {

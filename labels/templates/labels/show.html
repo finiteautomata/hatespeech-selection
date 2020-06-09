@@ -13,6 +13,9 @@
 
 
 {% block content %}
+
+<a class="button-primary button" href="{% url 'articles:show' article.slug %}"> Mostrar vista artículo </a>
+
 <h3> Tweet  </h3>
 
 <p> {{article.text}} </p>

@@ -33,8 +33,8 @@ class DeleteMyLabels(LoginRequiredMixin, View):
 
 
 class LabelNews(LoginRequiredMixin, View):
-    def get(self, request, article_id):
-        article = get_article_or_404(article_id)
+    def get(self, request, article_slug):
+        article = get_article_or_404(slug=article_slug)
         comments = self.get_non_labelled_comments(request.user, article)
 
         return render(request, 'labels/show.html', {
@@ -46,7 +46,7 @@ class LabelNews(LoginRequiredMixin, View):
         return article.comments
 
     def post(self, request, article_id):
-        article = get_article_or_404(article_id)
+        article = get_article_or_404(id=article_id)
         try:
             body = json.loads(request.body)
             label = Label(

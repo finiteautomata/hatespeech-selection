@@ -6,5 +6,5 @@ app_name = 'articles'
 
 urlpatterns = [
     path('', views.ArticleIndexView.as_view(), name='index'),
-    path('<str:article_id>/', views.ArticleView.as_view(), name='show'),
+    path('<str:article_slug>/', views.ArticleView.as_view(), name='show'),
 ]
