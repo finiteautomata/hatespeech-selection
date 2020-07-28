@@ -1,5 +1,6 @@
 from django.http import Http404
 from hatespeech_models import Article
+from mongoengine import DoesNotExist
 
 def get_article_or_404(**kwargs):
     try:
