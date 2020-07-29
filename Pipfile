@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 ipdb = "*"
 ipython = "*"
+termcolor = "*"
 
 [packages]
 django = "==2.2.8"
@@ -18,7 +19,6 @@ jupyterlab = "*"
 matplotlib = "*"
 seaborn = "*"
 tqdm = "*"
-python-slugify = "*"
 
 [requires]
 python_version = "3.6"
