@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from hate_labelling.helpers import get_article_or_404
 from .models import Label
+from articles.models import Group
 from bson.objectid import ObjectId
 from mongoengine import DoesNotExist, ValidationError, NotUniqueError
 from hatespeech_models import Article
@@ -16,8 +17,10 @@ class LabelsIndex(LoginRequiredMixin, View):
         return Article.objects[0]
 
     def get(self, request):
+        groups = Group.objects
         return render(request, 'labels/index.html', {
             'labeled_count': 0,
+            'groups': groups,
             'left_count': Article.objects.count(),
             'next_article': self.next_article_to_label(),
         })

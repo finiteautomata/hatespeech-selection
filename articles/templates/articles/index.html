@@ -2,6 +2,14 @@
 
 {% block content %}
 
+<h3> Grupos disponibles </h3>
+
+<div class="row">
+  {% for group in groups %}
+    <a class="button" href="{% url 'articles:index' group.name%}"> {{group.name}} </a>
+  {% endfor %}
+</div>
+
 <div>
   Etiquetaste hasta el momento {{labeled_count}} noticias.
 </div>
