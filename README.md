@@ -6,12 +6,12 @@
 
 1. Get the data
 
-Download `hatespeech-articles-dump.zip` somewhere. Then, do the following
+Download `coronavirus-vX.zip` somewhere. Then, do the following
 
 ```
 unzip hatespeech-articles-dump.zip
 cd hatespeech-news
-mongorestore -d <DATABASE_NAME> articles.bson
+mongoimport coronavirus-argentina-vX.json --db <DATABASE_NAME> --collection article --jsonArray --drop
 ```
 
 Replace <DATABASE_NAME> with your desired database name. This will load the articles in a collection called `article` (singular name following `mongoengine` convention)
