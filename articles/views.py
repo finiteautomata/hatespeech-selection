@@ -10,28 +10,37 @@ from .models import Group
 
 class ArticleIndexView(LoginRequiredMixin, View):
 
-    def get_articles(self, group_name):
+    def get_articles(self, group):
         fields = [
             'created_at',
             'text',
             'id',
             'user',
             'slug',
+            'title',
         ]
 
-        if group_name:
-            group = Group.objects.get(name=group_name)
+        if group:
             articles = Article.objects(tweet_id__in=group.tweet_ids)
         else:
-            articles = Article.objects
+             articles = Article.objects
 
         return articles.order_by('created_at').only(*fields)
 
     def get(self, request, group_name=None):
-        articles = self.get_articles(group_name)
+        try:
+            group = Group.objects.get(name=group_name)
+        except DoesNotExist:
+            if Group.objects.count() > 0:
+                group = Group.objects[0]
+            else:
+                group = None
+
+        articles = self.get_articles(group)
         groups = Group.objects
         return render(request, 'articles/index.html', {
             'labeled_count': 0,
+            'current_group': group,
             'groups': groups,
             'left_count': articles.count(),
             'articles': articles,
