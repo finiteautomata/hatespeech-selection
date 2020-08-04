@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.1.3
+
+- Add script to create samples
+
 ## 0.1.2
 
 - Add slugs
