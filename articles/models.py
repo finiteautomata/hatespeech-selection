@@ -1,4 +1,5 @@
 import datetime
+from hatespeech_models import Article
 from mongoengine import (
     DynamicDocument,
     StringField,
@@ -17,7 +18,7 @@ class Group(DynamicDocument):
     This models a 'group' of news to be shown
     """
 
-    tweet_ids = ListField(LongField())
+    articles = ListField(ReferenceField(Article))
     name = StringField(required=True, max_length=50)
     meta = {
         'indexes': [
@@ -25,5 +26,5 @@ class Group(DynamicDocument):
     }
 
     def __repr__(self):
-        return f"""{self.name} group with {len(self.tweet_ids)} tweets
+        return f"""{self.name} group with {len(self.articles)} tweets
     """

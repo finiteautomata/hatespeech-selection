@@ -13,7 +13,7 @@ def create_group(group_name, articles):
     except DoesNotExist:
         group = Group(name=group_name)
 
-    group.tweet_ids = [art["tweet_id"] for art in articles]
+    group.articles = [art["_id"] for art in articles]
     group.save()
 
     return group
@@ -70,7 +70,7 @@ def create_samples(database, drop_groups=True, num_articles=30, min_comments=20)
     selected_articles = random.sample(articles, 30)
 
     group = create_group("Random", selected_articles)
-    print(f"Created {group.name} group with {len(group.tweet_ids)} articles")
+    print(f"Created {group.name} group with {len(group.articles)} articles")
     """
     Create hateful articles
     """
@@ -86,7 +86,7 @@ def create_samples(database, drop_groups=True, num_articles=30, min_comments=20)
         selected_articles = random.sample(hateful_articles, 30)
         group_name = f"Comments {key:.2f}"
         group = create_group(group_name, selected_articles)
-        print(f"Created {group.name} group with {len(group.tweet_ids)} articles")
+        print(f"Created {group.name} group with {len(group.articles)} articles")
 
 if __name__ == "__main__":
     fire.Fire(create_samples)
