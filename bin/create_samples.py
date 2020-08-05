@@ -77,7 +77,7 @@ def create_samples(database, drop_groups=True, num_articles=30, min_comments=20)
     thresholded_articles = {
         k:[art for art in articles if art["avg_hate_value"] > k]
 
-        for k in np.arange(0.05, 0.45, 0.05)
+        for k in np.arange(0.05, 0.45, 0.10)
     }
     random.seed(2020)
 
