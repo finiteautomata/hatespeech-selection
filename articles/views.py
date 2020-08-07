@@ -23,10 +23,10 @@ class ArticleIndexView(LoginRequiredMixin, View):
         try:
             group = Group.objects.get(name=group_name)
         except DoesNotExist:
-            if Group.objects.count() > 0:
-                group = Group.objects[0]
-            else:
+            if group_name == "all" or Group.objects.count() == 0:
                 group = None
+            else:
+                group = Group.objects[0]
 
         articles = self.get_articles(group)
         groups = Group.objects
