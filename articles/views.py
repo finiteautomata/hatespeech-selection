@@ -11,30 +11,22 @@ from .models import Group
 class ArticleIndexView(LoginRequiredMixin, View):
 
     def get_articles(self, group):
-        fields = [
-            'created_at',
-            'text',
-            'id',
-            'user',
-            'slug',
-            'title',
-        ]
-
         if group:
-            articles = Article.objects(tweet_id__in=group.tweet_ids)
+            articles = group.articles
+            articles = sorted(articles, key=lambda x: x.created_at)
         else:
-             articles = Article.objects
+            articles = Article.objects.order_by('-created_at')
 
-        return articles.order_by('created_at').only(*fields)
+        return articles
 
     def get(self, request, group_name=None):
         try:
             group = Group.objects.get(name=group_name)
         except DoesNotExist:
-            if Group.objects.count() > 0:
-                group = Group.objects[0]
-            else:
+            if group_name == "all" or Group.objects.count() == 0:
                 group = None
+            else:
+                group = Group.objects[0]
 
         articles = self.get_articles(group)
         groups = Group.objects
@@ -42,7 +34,6 @@ class ArticleIndexView(LoginRequiredMixin, View):
             'labeled_count': 0,
             'current_group': group,
             'groups': groups,
-            'left_count': articles.count(),
             'articles': articles,
         })
 
