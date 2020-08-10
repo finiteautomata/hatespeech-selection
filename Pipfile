@@ -7,6 +7,8 @@ verify_ssl = true
 ipdb = "*"
 ipython = "*"
 termcolor = "*"
+ipywidgets = "*"
+sklearn = "*"
 
 [packages]
 django = "==2.2.8"
@@ -20,6 +22,10 @@ matplotlib = "*"
 seaborn = "*"
 tqdm = "*"
 fire = "*"
+nltk = "*"
+spacy = "*"
+gensim = "*"
+pyldavis = "*"
 
 [requires]
 python_version = "3.6"
