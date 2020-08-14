@@ -9,6 +9,7 @@ ipython = "*"
 termcolor = "*"
 ipywidgets = "*"
 sklearn = "*"
+contextualized-topic-models = "*"
 
 [packages]
 django = "==2.2.8"
@@ -26,6 +27,7 @@ nltk = "*"
 spacy = "*"
 gensim = "*"
 pyldavis = "*"
+torch = "==1.4.0"
 
 [requires]
 python_version = "3.6"
