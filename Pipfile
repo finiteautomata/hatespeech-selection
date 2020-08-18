@@ -10,6 +10,7 @@ termcolor = "*"
 ipywidgets = "*"
 sklearn = "*"
 contextualized-topic-models = "*"
+jupyterlab = "*"
 
 [packages]
 django = "==2.2.8"

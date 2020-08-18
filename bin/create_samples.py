@@ -1,5 +1,6 @@
 import fire
 import sys
+import math
 import numpy as np
 from copy import deepcopy
 sys.path.append(".")
@@ -87,7 +88,7 @@ def create_samples(database, drop_groups=True, drop_articles=True, num_articles=
     """
 
     random.seed(2020)
-    selected_articles = random.sample(articles, 30)
+    selected_articles = random.sample(articles, num_articles)
 
     selected_articles = Article.objects(id__in=[t["_id"] for t in selected_articles])
 
@@ -104,10 +105,51 @@ def create_samples(database, drop_groups=True, drop_articles=True, num_articles=
     random.seed(2020)
 
     for key, hateful_articles in thresholded_articles.items():
-        selected_articles = random.sample(hateful_articles, 30)
+        selected_articles = random.sample(hateful_articles, num_articles)
         selected_articles = Article.objects(id__in=[t["_id"] for t in selected_articles])
         group_name = f"Comments {key:.2f}"
         group = create_group(group_name, selected_articles, min_comments)
+        print(f"Created {group.name} group with {len(group.articles)} articles")
+
+    """
+    Create with seed keywords
+    """
+
+    seeds = [
+        # Las separo en categorías]
+        [ "china"],
+        [
+            "China", "Cuba", "Cubano", "bolivia",
+            "Trump", "judío",
+        ],
+        [
+            "camionero", "agresor", "policía", "ladrón", "reprimir", "represión",
+            "juez", "justicia", "penal", "criminal", "delito", "denunciar",
+        ],
+        [
+            "mamá", "género",
+            "aborto", "actriz", "conductora", "feminista", "madre",
+            "femicidios", "mujer", "trans",
+        ],
+
+        [
+            "cristina", "macri", "morales", "canosa", "evo",
+        ]
+    ]
+
+
+
+    for i in [19, 29, 39, 59]:
+        selected_articles = []
+        per_category = math.ceil(num_articles / len(seeds))
+        for category in seeds:
+            text_query = " ".join(category)
+
+            selected_articles += random.sample(list(Article.objects(**{
+                f"comments__{i}__exists": True
+            }).search_text(text_query)), per_category)
+
+        group = create_group(f"Seeds > {i+1} comentarios", selected_articles, min_comments)
         print(f"Created {group.name} group with {len(group.articles)} articles")
 
 
