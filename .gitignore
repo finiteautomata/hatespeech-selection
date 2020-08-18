@@ -1,2 +1,4 @@
 **/.ipynb_checkpoints/*
 dump/*
+*.pkl
+data/*
