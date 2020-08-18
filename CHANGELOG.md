@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## 0.1.4
+## 0.1.3.2
+
+- Add seed sampling (over a set of words)
+
+## 0.1.3.1
 
 - Groups are now created over "dummy" articles that have a subsample of comments
 
