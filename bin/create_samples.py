@@ -6,7 +6,7 @@ from copy import deepcopy
 sys.path.append(".")
 from mongoengine import connect, DoesNotExist
 from hatespeech_models import Tweet, Article
-from articles.models import Group
+from groups.models import Group
 import random
 
 def create_group(group_name, articles, num_comments):
@@ -90,7 +90,7 @@ def create_samples(database, drop_groups=True, drop_articles=True, num_articles=
     random.seed(2020)
     selected_articles = random.sample(articles, num_articles)
 
-    selected_articles = Article.objects(id__in=[t["_id"] for t in selected_articles])
+    selected_articles = Article.objects(id__in=[t["_id"] for t in selected_articles]).order_by('created_at')
 
     group = create_group("Random", selected_articles, min_comments)
     print(f"Created {group.name} group with {len(group.articles)} articles")
@@ -106,7 +106,7 @@ def create_samples(database, drop_groups=True, drop_articles=True, num_articles=
 
     for key, hateful_articles in thresholded_articles.items():
         selected_articles = random.sample(hateful_articles, num_articles)
-        selected_articles = Article.objects(id__in=[t["_id"] for t in selected_articles])
+        selected_articles = Article.objects(id__in=[t["_id"] for t in selected_articles]).order_by('created_at')
         group_name = f"Comments {key:.2f}"
         group = create_group(group_name, selected_articles, min_comments)
         print(f"Created {group.name} group with {len(group.articles)} articles")
@@ -147,6 +147,7 @@ def create_samples(database, drop_groups=True, drop_articles=True, num_articles=
                 f"comments__{i}__exists": True
             }).search_text(text_query)), per_category)
 
+        selected_articles = sorted(selected_articles, key=lambda x: x.created_at)
         group = create_group(f"Seeds > {i+1} comentarios", selected_articles, min_comments)
         print(f"Created {group.name} group with {len(group.articles)} articles")
 
@@ -157,6 +158,11 @@ def create_samples(database, drop_groups=True, drop_articles=True, num_articles=
     selected_articles = list(Article.objects(**{
         f"comments__39__exists": True
     }).search_text(text_query))
+
+    # I order this way because if not mongo is exploding
+
+    selected_articles = sorted(selected_articles, key=lambda x: x.created_at)
+
 
     group = Group(name=f"Seeds > 40 no sampling")
     group.articles = selected_articles
