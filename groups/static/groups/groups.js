@@ -9,11 +9,15 @@ function deleteFromGroup(anchor) {
   xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   xmlhttp.setRequestHeader("X-CSRFToken", csrftoken);
   // Callbacks
-  xmlhttp.onload = function(){
-    successCallback(anchor);
+  xmlhttp.onload = function(res){
+    var response = JSON.parse(this.response);
+
+    successCallback(response, anchor);
   };
-  xmlhttp.onerror = function(){
-    errCallback(this);
+  xmlhttp.onerror = function(res){
+    var response = JSON.parse(this.response);
+
+    errCallback(response, anchor);
   };
 
   var info = {
@@ -23,11 +27,14 @@ function deleteFromGroup(anchor) {
   xmlhttp.send();
 }
 
-function successCallback(anchor) {
+function successCallback(response, anchor) {
+  var row = anchor.parentNode.parentNode;
+  var tableBody = row.parentNode;
 
-  alert("ANDUVO BIEN");
+  row.remove();
+  //tableBody.removeChild(row);
 }
 
-function errCallback(anchor) {
-  alert("ANDUVO MAL");
+function errCallback(response, anchor) {
+  alert("No ha sido posible efectuar la operación: "+ response.error);
 }
