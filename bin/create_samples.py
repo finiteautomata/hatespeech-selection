@@ -137,8 +137,6 @@ def create_samples(database, drop_groups=True, drop_articles=True, num_articles=
         ]
     ]
 
-
-
     for i in [19, 29, 39, 59]:
         selected_articles = []
         per_category = math.ceil(num_articles / len(seeds))
@@ -151,6 +149,20 @@ def create_samples(database, drop_groups=True, drop_articles=True, num_articles=
 
         group = create_group(f"Seeds > {i+1} comentarios", selected_articles, min_comments)
         print(f"Created {group.name} group with {len(group.articles)} articles")
+
+    # Create one with all keywords
+
+    text_query = " ".join(kw for cat in seeds for kw in cat)
+
+    selected_articles = list(Article.objects(**{
+        f"comments__39__exists": True
+    }).search_text(text_query))
+
+    group = Group(name=f"Seeds > 40 no sampling")
+    group.articles = selected_articles
+    group.save()
+
+    print(f"Created {group.name} group with {len(group.articles)} articles")
 
 
 if __name__ == "__main__":
