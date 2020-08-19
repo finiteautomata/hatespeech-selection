@@ -1,6 +1,6 @@
 from django.http import Http404
 from django.views import View
-from django.http import Http404
+from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from mongoengine.connection import get_db
@@ -32,6 +32,7 @@ class GroupView(LoginRequiredMixin, View):
         except DoesNotExist:
             raise Http404("Grupo no existente")
 
+
         articles = self.get_articles(group)
         groups = Group.objects
         return render(request, 'groups/show.html', {
@@ -40,3 +41,15 @@ class GroupView(LoginRequiredMixin, View):
             'groups': groups,
             'articles': articles,
         })
+
+class GroupArticleDeleteView(LoginRequiredMixin, View):
+    def delete(self, request, group_name, article_id):
+        try:
+            group = Group.objects.get(name=group_name)
+            article = next(art for art in group.articles if str(art.id) == article_id)
+
+            erased = Group.objects(name=group_name).update_one(pull__articles=article)
+
+            return JsonResponse({"erased": erased}, status=200)
+        except (DoesNotExist, StopIteration) as e:
+            return JsonResponse({"error": "Grupo o artículo no existente o no perteneciente al grupo"}, status=400)

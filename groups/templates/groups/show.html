@@ -1,4 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block  head %}
+
+<script src="{% static 'labels/csrf.js' %}" type="text/javascript"> </script>
+<script src="{% static 'groups/groups.js' %}" type="text/javascript"> </script>
+
+
+{% endblock %}
+
 
 {% block content %}
 
@@ -30,7 +40,7 @@
   <td> {{article.created_at}}  </td>
   <td> {{article.user}} </td>
   <td> <a href="{% url 'articles:show' article.slug %}">@{{article.title}} </a> </td>
-  <td>  </td>
+  <td> <a class="delete-from-group button" data-group-name="{{current_group.name}}" data-article-id="{{article.id}}" onclick="deleteFromGroup(this)"> Sacar de grupo </a> </td>
 </tr>
 {% endfor %}
 </table>

@@ -22,6 +22,7 @@ class Group(DynamicDocument):
     name = StringField(required=True, max_length=50)
     meta = {
         'indexes': [
+            'name',
         ]
     }
 
