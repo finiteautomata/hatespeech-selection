@@ -40,7 +40,13 @@
   <td> {{article.created_at}}  </td>
   <td> {{article.user}} </td>
   <td> <a href="{% url 'articles:show' article.slug %}">@{{article.title}} </a> </td>
-  <td> <a class="delete-from-group button" data-group-name="{{current_group.name}}" data-article-id="{{article.id}}" onclick="deleteFromGroup(this)"> Sacar de grupo </a> </td>
+  <td>
+    {% if user.is_superuser %}
+      <a class="delete-from-group button" data-group-name="{{current_group.name}}" data-article-id="{{article.id}}" onclick="deleteFromGroup(this)">
+        Sacar de grupo
+      </a>
+    {% endif %}
+  </td>
 </tr>
 {% endfor %}
 </table>
