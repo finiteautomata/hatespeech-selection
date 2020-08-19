@@ -5,7 +5,9 @@
 <a class="button-primary button" href="{% url 'labels:show' article.slug %}"> Mostrar vista etiquetado </a>
 
 <h4> @{{article.user}} - {{article.title}}  </h4>
+
 <p> {{article.created_at}} </p>
+<p> {{article.tweet_id}} </p>
 
 <blockquote class="twitter-tweet"><p lang="es" dir="ltr"> {{article.text}} <a href="https://twitter.com/user/status/{{article.tweet_id}}?ref_src=twsrc%5Etfw">August 3, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 

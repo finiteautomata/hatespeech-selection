@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include('labels.urls', namespace='labels')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path("groups/", include('groups.urls', namespace='groups')),
     path("articles/", include('articles.urls', namespace='articles')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

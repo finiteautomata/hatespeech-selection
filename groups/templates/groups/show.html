@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3> Grupos disponibles </h3>
+
+<div class="row">
+  {% for group in groups %}
+    {% if group.name == current_group.name %}
+      <a class="button button-primary" href="{% url 'groups:show' group.name%}"> {{group.name}} </a>
+    {% else %}
+      <a class="button" href="{% url 'groups:show' group.name%}"> {{group.name}} </a>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<h2> Grupo {{current_group.name}} </h2>
+
+<ul>
+<table>
+  <thead>
+      <th> Fecha </th>
+      <th> User </th>
+      <th> Título </th>
+      <th> Acciones </th>
+  </thead>
+
+{% for article in articles %}
+<tr>
+  <td> {{article.created_at}}  </td>
+  <td> {{article.user}} </td>
+  <td> <a href="{% url 'articles:show' article.slug %}">@{{article.title}} </a> </td>
+  <td>  </td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

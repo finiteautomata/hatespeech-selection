@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from hate_labelling.helpers import get_article_or_404
 from .models import Label
-from articles.models import Group
+from groups.models import Group
 from bson.objectid import ObjectId
 from mongoengine import DoesNotExist, ValidationError, NotUniqueError
 from hatespeech_models import Article
