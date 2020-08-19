@@ -1,3 +1,4 @@
+from bson import ObjectId
 from django.http import Http404
 from django.views import View
 from django.http import JsonResponse
@@ -17,24 +18,16 @@ class GroupIndex(LoginRequiredMixin, View):
         return redirect("groups:show", group_name=group.name)
 
 class GroupView(LoginRequiredMixin, View):
-    def get_articles(self, group):
-        if group:
-            articles = group.articles
-            articles = sorted(articles, key=lambda x: x.created_at)
-        else:
-            articles = Article.objects.order_by('-created_at')
-
-        return articles
-
     def get(self, request, group_name):
         try:
-            group = Group.objects.get(name=group_name)
+            group = Group.objects.no_dereference().get(name=group_name)
         except DoesNotExist:
             raise Http404("Grupo no existente")
 
+        article_ids = [t.id for t in group.articles]
+        articles = Article.objects(id__in=article_ids)
 
-        articles = self.get_articles(group)
-        groups = Group.objects
+        groups = Group.objects.no_dereference()
         return render(request, 'groups/show.html', {
             'labeled_count': 0,
             'current_group': group,
@@ -45,10 +38,9 @@ class GroupView(LoginRequiredMixin, View):
 class GroupArticleDeleteView(LoginRequiredMixin, View):
     def delete(self, request, group_name, article_id):
         try:
-            group = Group.objects.get(name=group_name)
-            article = next(art for art in group.articles if str(art.id) == article_id)
+            group = Group.objects.no_dereference().get(name=group_name)
 
-            erased = Group.objects(name=group_name).update_one(pull__articles=article)
+            erased = Group.objects(name=group_name).no_dereference().update_one(pull__articles=ObjectId(article_id))
 
             return JsonResponse({"erased": erased}, status=200)
         except (DoesNotExist, StopIteration) as e:
