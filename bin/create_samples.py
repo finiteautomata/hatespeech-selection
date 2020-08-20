@@ -120,14 +120,14 @@ def create_samples(database, drop_groups=True, drop_articles=True, num_articles=
         [ "china"],
         [
             "China", "Cuba", "Cubano", "bolivia",
-            "Trump", "judío",
+            "Trump", "judío", "dictadura",
         ],
         [
             "camionero", "agresor", "policía", "ladrón", "reprimir", "represión",
             "juez", "justicia", "penal", "criminal", "delito", "denunciar",
         ],
         [
-            "mamá", "género",
+            "mamá", "género", "madre", "abuelas",
             "aborto", "actriz", "conductora", "feminista", "madre",
             "femicidios", "mujer", "trans",
         ],

@@ -31,6 +31,7 @@
   <thead>
       <th> Fecha </th>
       <th> User </th>
+      <th> #Comentarios </th>
       <th> Título </th>
       <th> Acciones </th>
   </thead>
@@ -39,11 +40,12 @@
 <tr>
   <td> {{article.created_at}}  </td>
   <td> {{article.user}} </td>
-  <td> <a href="{% url 'articles:show' article.slug %}">@{{article.title}} </a> </td>
+  <td> {{article.comments | length }} </td>
+  <td> <a href="{% url 'articles:show' article.slug %}">{{article.title}} </a> </td>
   <td>
     {% if user.is_superuser %}
       <a class="delete-from-group button" data-group-name="{{current_group.name}}" data-article-id="{{article.id}}" onclick="deleteFromGroup(this)">
-        Sacar de grupo
+        Eliminar
       </a>
     {% endif %}
   </td>
