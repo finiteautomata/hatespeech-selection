@@ -29,8 +29,6 @@ function deleteFromGroup(anchor) {
 
 function successCallback(response, anchor) {
   var row = anchor.parentNode.parentNode;
-  var tableBody = row.parentNode;
-
   row.remove();
   //tableBody.removeChild(row);
 }
