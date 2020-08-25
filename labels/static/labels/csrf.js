@@ -15,3 +15,6 @@ function getCookie(name) {
 }
 
 var csrftoken = getCookie('csrftoken');
+
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";

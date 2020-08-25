@@ -2,9 +2,8 @@
 {% load static %}
 {% block  head %}
 
-<script src="{% static 'labels/csrf.js' %}" type="text/javascript"> </script>
 <script src="{% static 'groups/groups.js' %}" type="text/javascript"> </script>
-
+<script src="{% static 'articles/articles.js' %}" type="text/javascript"> </script>
 {% endblock %}
 
 {% block title %}
@@ -28,6 +27,22 @@
 {% endif %}
 
 <h4> @{{article.user}} - {{article.title}}  </h4>
+
+
+
+{% if user.is_superuser %}
+
+<div class="row">
+  <form action="{% url 'articles:show' article.slug %}" method="put" onsubmit="submitDescriptionForm(event)">
+    <label for="description"> Descripción interna </label>
+    <input type="text" name="description" value="{{article.description|default:''}}"/>
+    <br/>
+    <input type="submit"/>
+  </form>
+
+</div>
+{% endif %}
+
 
 <p> {{article.created_at}} </p>
 <p> {{article.tweet_id}} </p>
