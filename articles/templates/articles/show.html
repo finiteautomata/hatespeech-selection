@@ -41,6 +41,12 @@
   </form>
 
 </div>
+
+{% else %}
+<div class="row">
+  {{ article.description | default:''}}
+</div>
+
 {% endif %}
 
 
