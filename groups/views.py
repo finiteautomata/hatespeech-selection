@@ -25,7 +25,17 @@ class GroupView(LoginRequiredMixin, View):
             raise Http404("Grupo no existente")
 
         article_ids = [t.id for t in group.articles]
-        articles = Article.objects(id__in=article_ids)
+        # TODO: Fix this. Not using mongoengine because it is DAMN SLOW
+        db = get_db()
+
+        articles = list(db.article.find({
+            "_id": { "$in": article_ids }
+        }))
+        # HORRIBLE HACK. Can't use "_id" in template
+        for art in articles:
+            art["id"] = art.pop("_id")
+
+
 
         groups = Group.objects.no_dereference()
         return render(request, 'groups/show.html', {
