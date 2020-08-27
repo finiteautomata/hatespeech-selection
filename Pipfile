@@ -29,6 +29,7 @@ spacy = "*"
 gensim = "*"
 pyldavis = "*"
 torch = "==1.4.0"
+unidecode = "*"
 
 [requires]
 python_version = "3.6"
