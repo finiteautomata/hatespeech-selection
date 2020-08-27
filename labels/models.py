@@ -17,6 +17,7 @@ class Label(DynamicDocument):
     tweet_id = LongField(required=True, unique_with="user_id")
     hateful = BooleanField(required=True)
     profane = BooleanField(required=True)
+    created_at = DateTimeField(required=True)
     user_id = LongField(required=True)
 
     meta = {

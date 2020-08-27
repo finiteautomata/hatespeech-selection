@@ -1,8 +1,8 @@
 
 class Label {
 
-  constructor(article_id, tweet_id, hateful, profanity) {
-    this.article_id = article_id;
+  constructor(slug, tweet_id, hateful, profanity) {
+    this.slug = slug;
     this.tweet_id = tweet_id;
     this.hateful = hateful;
     this.profanity = profanity;
@@ -11,7 +11,7 @@ class Label {
   save(successCallback, errCallback) {
     var xmlhttp = new XMLHttpRequest();
     // FIX: this is awful
-    xmlhttp.open("POST", "/label/" + this.article_id + "/");
+    xmlhttp.open("POST", "/label/" + this.slug + "/");
     xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xmlhttp.setRequestHeader("X-CSRFToken", csrftoken);
     // Callbacks
@@ -33,11 +33,11 @@ class Label {
 
   static createFromTab(tab) {
     var tweet_id = tab.getAttribute("data-tweet-id");
-    var article_id = tab.getAttribute("data-article-id");
+    var slug = tab.getAttribute("data-article-slug");
     var hateful = tab.querySelector('input[name="hate"]:checked').value;
     var profanity = tab.querySelector('input[name="profanity"]:checked').value;
     return new Label(
-      article_id, tweet_id,
+      slug, tweet_id,
       parseInt(hateful), parseInt(profanity)
     );
   }

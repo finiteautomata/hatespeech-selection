@@ -1,4 +1,5 @@
 import json
+import datetime
 from django.http import Http404
 from django.views import View
 from django.shortcuts import get_object_or_404, render, redirect
@@ -18,7 +19,7 @@ class DeleteMyLabels(LoginRequiredMixin, View):
         """
         Label.objects(user_id=request.user.id).delete()
 
-        return redirect("/")
+        return redirect("/groups/")
 
 
 class LabelNews(LoginRequiredMixin, View):
@@ -34,12 +35,13 @@ class LabelNews(LoginRequiredMixin, View):
     def get_non_labelled_comments(self, user, article):
         return article.comments
 
-    def post(self, request, article_id):
-        article = get_article_or_404(id=article_id)
+    def post(self, request, article_slug):
+        article = get_article_or_404(slug=article_slug)
         try:
             body = json.loads(request.body)
             label = Label(
                 user_id=request.user.id,
+                created_at=datetime.datetime.now(),
                 tweet_id=body["tweet_id"],
                 profane=bool(int(body["profanity"])),
                 hateful=bool(int(body["hateful"])),
@@ -50,6 +52,5 @@ class LabelNews(LoginRequiredMixin, View):
         except (ValidationError, NotUniqueError) as e:
             return JsonResponse({"error": str(e)}, status=400)
         except KeyError as e:
-            return JsonResponse({
-                "error": e.message,
+            return JsonResponse({ "error": e.message,
             }, status=400)
