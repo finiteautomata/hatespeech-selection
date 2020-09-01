@@ -12,10 +12,13 @@
   ---
   <br/>
 
+ {% comment 'Lo saco por ahora '%}
   <form action="{% url 'labels:delete_all'%}" method="post">
     {% csrf_token %}
     <input type="submit" value="Borrar mis etiquetas" style="background-color:red">
   </form>
+
+ {% endcomment %}
 
   <br/>
   ---

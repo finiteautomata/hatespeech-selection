@@ -12,9 +12,13 @@
 
 {% block content %}
 
+{% comment 'Saco etiquetado' %}
+
 <div class="row">
 <a class="button-primary button" href="{% url 'labels:show' article.slug %}"> Mostrar vista etiquetado </a>
 </div>
+
+{% endcomment %}
 {% if group and user.is_superuser %}
 <div class="row">
   <div class="">
