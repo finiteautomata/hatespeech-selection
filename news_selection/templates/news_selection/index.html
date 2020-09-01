@@ -6,4 +6,16 @@
 
 
 {% block content %}
+
+<div class="row">
+  <p>
+    En este sitio, elegiremos noticias para posteriormente ser etiquetadas
+  </p>
+
+  <p>Describir un poco el criterio de selección</p>
+</div>
+
+<div class="row">
+  <a class="button button-primary" href="{% url 'news_selection:next' %}">Seguir eligiendo noticias</a>
+</div>
 {% endblock %}
