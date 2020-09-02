@@ -1,5 +1,6 @@
 import json
 import datetime
+import random
 from django.http import Http404
 from django.views import View
 from django.shortcuts import get_object_or_404, render, redirect
@@ -26,9 +27,35 @@ class NextArticle(LoginRequiredMixin, View):
     def get(self, request):
 
         # TODO: CHANGE THIS
-        article = Article.objects[0]
+        username = request.user.username
+
+        """
+        We get one random out of the next 100 (at most) articles
+        """
+        next_articles = Article.next_articles_to_be_labelled(username)
+        num_articles = next_articles.count()
+
+        if num_articles == 0:
+            return redirect('news_selection:done')
+
+        to_be_considered = min(next_articles.count(), 100)
+        idx = random.randint(0, to_be_considered-1)
+
+        article = next_articles[idx]
+
+
 
         return redirect('news_selection:label', article.slug)
+
+class Done(LoginRequiredMixin, View):
+    """
+    Done labelling :-)
+    """
+    def get(self, request):
+        username = request.user.username
+
+        return render(request, "news_selection/done.html")
+
 
 
 class LabelArticle(LoginRequiredMixin, View):
@@ -45,8 +72,8 @@ class LabelArticle(LoginRequiredMixin, View):
 class InterestingArticle(LoginRequiredMixin, View):
     def post(self, request, article_slug):
         article = get_article_or_404(slug=article_slug)
-
         username = request.user.username
+
         article.set_as_interesting_to(username)
 
         return redirect("news_selection:next")
