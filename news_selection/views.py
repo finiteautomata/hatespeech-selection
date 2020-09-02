@@ -54,7 +54,13 @@ class Done(LoginRequiredMixin, View):
     def get(self, request):
         username = request.user.username
 
-        return render(request, "news_selection/done.html")
+        labeled_articles = Article.objects(seen_by=username).count()
+        interesting_articles = Article.objects(interesting_to=username).count()
+
+        return render(request, "news_selection/done.html", {
+            "labeled_articles": labeled_articles,
+            "interesting_articles": interesting_articles,
+        })
 
 
 

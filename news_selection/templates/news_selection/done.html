@@ -1,20 +1,17 @@
-{% extends 'articles/show.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
-{% block actions %}
+{% block content %}
 
 
 
 
 <div class="row">
   <h2> ¡Terminaste! </h2>
-  <div class="four columns">
-    <form class="" action="{% url 'news_selection:is_interesting' article.slug %}" method="post">
-      {% csrf_token %}
-      <input type="submit" value="Interesante" class="interesting">
 
-    </form>
-  </div>
+
+  <p> Etiquetaste {{ labeled_articles}} artículos </p>
+  <p> De los cuales {{interesting_articles}} te parecieron interesantes </p>
 </div>
 
 {% endblock %}
