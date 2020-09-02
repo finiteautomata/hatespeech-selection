@@ -1,0 +1,44 @@
+{% extends 'articles/show.html' %}
+{% load static %}
+
+{% block actions %}
+
+<h2> Acciones </h2>
+
+
+<style>
+  input[type="submit"].interesting {
+    background-color: green;
+    color: white;
+    width: 100%;
+  }
+  input[type="submit"].not-interesting {
+    background-color: red;
+    color: white;
+    width: 100%;
+  }
+
+</style>
+
+
+<div class="row">
+  <div class="four columns">
+    <form class="" action="{% url 'news_selection:is_interesting' article.slug %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="Interesante" class="interesting">
+
+    </form>
+
+  </div>
+
+  <div class="four columns">
+    <form class="" action="{% url 'news_selection:not_interesting' article.slug %}" method="post">
+      {% csrf_token %}
+      <input type="submit" value="No es interesante" class="not-interesting">
+    </form>
+
+  </div>
+
+</div>
+
+{% endblock %}
