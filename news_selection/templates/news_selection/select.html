@@ -23,14 +23,17 @@
 
 <div class="row">
   <div class="four columns">
-    <form class="" action="index.html" method="post">
+    <form class="" action="{% url 'news_selection:is_interesting' article.slug %}" method="post">
+      {% csrf_token %}
       <input type="submit" value="Interesante" class="interesting">
+
     </form>
 
   </div>
 
   <div class="four columns">
-    <form class="" action="index.html" method="post">
+    <form class="" action="{% url 'news_selection:not_interesting' article.slug %}" method="post">
+      {% csrf_token %}
       <input type="submit" value="No es interesante" class="not-interesting">
     </form>
 

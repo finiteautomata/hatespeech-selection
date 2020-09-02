@@ -33,13 +33,29 @@ class NextArticle(LoginRequiredMixin, View):
 
 class LabelArticle(LoginRequiredMixin, View):
     """
-    Redirects to next article selection
+    Show article and actions to set as interesting or not interesting
     """
     def get(self, request, article_slug):
-
-        # TODO: CHANGE THIS
-        article = Article.objects[0]
+        article = get_article_or_404(slug=article_slug)
 
         return render(request, "news_selection/select.html", {
             "article": article
         })
+
+class InterestingArticle(LoginRequiredMixin, View):
+    def post(self, request, article_slug):
+        article = get_article_or_404(slug=article_slug)
+
+        username = request.user.username
+        article.set_as_interesting_to(username)
+
+        return redirect("news_selection:next")
+
+class NotInterestingArticle(LoginRequiredMixin, View):
+    def post(self, request, article_slug):
+        article = get_article_or_404(slug=article_slug)
+
+        username = request.user.username
+        article.set_as_not_interesting_to(username)
+
+        return redirect("news_selection:next")
