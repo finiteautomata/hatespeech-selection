@@ -42,3 +42,15 @@ python manage.py createsuperuser
 ```
 python manage.py runserver
 ```
+
+## Selection of news
+
+1. First, run select news
+
+```
+python bin/select_news <DATABASE_NAME>
+```
+
+2. Dump
+
+```mongoexport -d <DATABASE_NAME> -c article --jsonArray --pretty --query '{"selected":true}' --out dumps/selected-coronavirus-articles.json```

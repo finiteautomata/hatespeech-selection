@@ -2,3 +2,4 @@
 dump/*
 *.pkl
 data/*
+dumps/*
