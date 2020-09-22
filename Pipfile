@@ -11,6 +11,7 @@ ipywidgets = "*"
 sklearn = "*"
 contextualized-topic-models = "*"
 jupyterlab = "*"
+pylint-django = "*"
 
 [packages]
 django = "==2.2.8"
@@ -30,6 +31,7 @@ gensim = "*"
 pyldavis = "*"
 torch = "==1.4.0"
 unidecode = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.6"
