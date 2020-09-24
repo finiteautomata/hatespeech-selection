@@ -1,15 +1,19 @@
-import fire
+from copy import deepcopy
 import sys
 import math
+import fire
 import numpy as np
-from copy import deepcopy
 sys.path.append(".")
+from tqdm.auto import tqdm
 from mongoengine import connect, DoesNotExist
 from hatespeech_models import Tweet, Article
 from groups.models import Group
 import random
 
 def create_group(group_name, articles, num_comments):
+    """
+    Create group from articles (sampling its comments)
+    """
     try:
         group = Group.objects.get(name=group_name)
     except DoesNotExist:
@@ -25,9 +29,16 @@ def create_group(group_name, articles, num_comments):
     return group
 
 def clone_and_sample_comments(article, num_comments):
+    """
+    Clone article with sampled comments
+    """
     new_art = deepcopy(article)
+    new_art.slug = None
     new_art.id = None
-    new_art.comments = random.sample(article.comments, num_comments)
+    new_art.comments = random.sample(
+        article.comments,
+        min(num_comments, len(article.comments))
+    )
     new_art.dummy = True
     new_art.save()
 
@@ -35,7 +46,9 @@ def clone_and_sample_comments(article, num_comments):
 
 
 
-def create_samples(database, drop_groups=True, drop_articles=True, num_articles=30, min_comments=20):
+def create_samples(
+    database, drop_groups=True, drop_articles=True, num_articles=30,
+    min_comments=20, sampled_comments=50):
     """
     Create samples of articles to be labelled
 
@@ -84,33 +97,25 @@ def create_samples(database, drop_groups=True, drop_articles=True, num_articles=
         article["avg_hate_value"] = sum(c["hateful_value"] for c in article["comments"]) / len(article["comments"])
 
     """
-    Create random group
-    """
-
-    random.seed(2020)
-    selected_articles = random.sample(articles, num_articles)
-
-    selected_articles = Article.objects(id__in=[t["_id"] for t in selected_articles]).order_by('created_at')
-
-    group = create_group("Random", selected_articles, min_comments)
-    print(f"Created {group.name} group with {len(group.articles)} articles")
-    """
     Create hateful articles
     """
     thresholded_articles = {
         k:[art for art in articles if art["avg_hate_value"] > k]
 
-        for k in np.arange(0.05, 0.45, 0.10)
+        for k in [0.15, 0.20, 0.25, 0.30]
     }
     random.seed(2020)
 
-    for key, hateful_articles in thresholded_articles.items():
-        selected_articles = random.sample(hateful_articles, num_articles)
+    print("Creating hateful groups")
+    for key, hateful_articles in tqdm(thresholded_articles.items()):
+        #selected_articles = random.sample(hateful_articles, num_articles)
+        selected_articles = hateful_articles
         selected_articles = Article.objects(id__in=[t["_id"] for t in selected_articles]).order_by('created_at')
         group_name = f"Comments {key:.2f}"
-        group = create_group(group_name, selected_articles, min_comments)
+        group = create_group(group_name, selected_articles, sampled_comments)
         print(f"Created {group.name} group with {len(group.articles)} articles")
 
+    return
     """
     Create with seed keywords
     """

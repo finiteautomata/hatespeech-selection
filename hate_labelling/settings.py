@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'hate_labelling.wsgi.application'
 DATABASES = {
    'default': {
        'ENGINE': 'djongo',
-       'NAME': 'hatespeech-labelling',
+       'NAME': 'hatespeech-selection',
        'CLIENT': {
             'host': 'localhost',
             'port': 27017,
