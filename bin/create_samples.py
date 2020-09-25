@@ -10,7 +10,7 @@ from hatespeech_models import Tweet, Article
 from groups.models import Group
 import random
 
-def create_group(group_name, articles, num_comments):
+def create_group(group_name, articles, num_comments, clone_and_sample):
     """
     Create group from articles (sampling its comments)
     """
@@ -19,11 +19,13 @@ def create_group(group_name, articles, num_comments):
     except DoesNotExist:
         group = Group(name=group_name)
 
-    cloned_articles = [
-        clone_and_sample_comments(art, num_comments) for art in articles
-    ]
+    if clone_and_sample:
+        group.articles = [
+            clone_and_sample_comments(art, num_comments) for art in articles
+        ]
+    else:
+        group.articles = articles
 
-    group.articles = cloned_articles
     group.save()
 
     return group
@@ -48,7 +50,7 @@ def clone_and_sample_comments(article, num_comments):
 
 def create_samples(
     database, drop_groups=True, drop_articles=True, num_articles=30,
-    min_comments=20, sampled_comments=50):
+    min_comments=20, sampled_comments=50, clone_and_sample=False):
     """
     Create samples of articles to be labelled
 
@@ -112,7 +114,10 @@ def create_samples(
         selected_articles = hateful_articles
         selected_articles = Article.objects(id__in=[t["_id"] for t in selected_articles]).order_by('created_at')
         group_name = f"Comments {key:.2f}"
-        group = create_group(group_name, selected_articles, sampled_comments)
+        group = create_group(
+            group_name, selected_articles, sampled_comments,
+            clone_and_sample=clone_and_sample
+        )
         print(f"Created {group.name} group with {len(group.articles)} articles")
 
     return
