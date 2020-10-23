@@ -4,6 +4,15 @@
 
 ## Instructions
 
+0. Install dependencies
+
+In project directory, run:
+
+```
+pipenv shell
+pipenv sync
+```
+
 1. Get the data
 
 Download `coronavirus-vX.zip` somewhere. Then, do the following
@@ -16,14 +25,14 @@ mongoimport coronavirus-argentina-vX.json --db <DATABASE_NAME> --collection arti
 
 Replace <DATABASE_NAME> with your desired database name. This will load the articles in a collection called `article` (singular name following `mongoengine` convention)
 
-2. Install dependencies
 
-In project directory, run:
+2. Prepare data
 
 ```
-pipenv shell
-pipenv sync
+python bin/merge_articles.py <DATABASE_NAME>
+python bin/load_replies.py <DATABASE_NAME>
 ```
+
 
 3. Run migrations
 
