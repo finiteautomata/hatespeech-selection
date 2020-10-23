@@ -120,66 +120,6 @@ def create_samples(
         )
         print(f"Created {group.name} group with {len(group.articles)} articles")
 
-    return
-    """
-    Create with seed keywords
-    """
-
-    seeds = [
-        # Las separo en categorías]
-        [ "china"],
-        [
-            "China", "Cuba", "Cubano", "bolivia",
-            "Trump", "judío", "dictadura",
-        ],
-        [
-            "camionero", "agresor", "policía", "ladrón", "reprimir", "represión",
-            "juez", "justicia", "penal", "criminal", "delito", "denunciar",
-        ],
-        [
-            "mamá", "género", "madre", "abuelas",
-            "aborto", "actriz", "conductora", "feminista", "madre",
-            "femicidios", "mujer", "trans",
-        ],
-
-        [
-            "cristina", "macri", "morales", "canosa", "evo",
-        ]
-    ]
-
-    for i in [19, 29, 39, 59]:
-        selected_articles = []
-        per_category = math.ceil(num_articles / len(seeds))
-        for category in seeds:
-            text_query = " ".join(category)
-
-            selected_articles += random.sample(list(Article.objects(**{
-                f"comments__{i}__exists": True
-            }).search_text(text_query)), per_category)
-
-        selected_articles = sorted(selected_articles, key=lambda x: x.created_at)
-        group = create_group(f"Seeds > {i+1} comentarios", selected_articles, min_comments)
-        print(f"Created {group.name} group with {len(group.articles)} articles")
-
-    # Create one with all keywords
-
-    text_query = " ".join(kw for cat in seeds for kw in cat)
-
-    selected_articles = list(Article.objects(**{
-        f"comments__39__exists": True
-    }).search_text(text_query))
-
-    # I order this way because if not mongo is exploding
-
-    selected_articles = sorted(selected_articles, key=lambda x: x.created_at)
-
-
-    group = Group(name=f"Seeds > 40 no sampling")
-    group.articles = selected_articles
-    group.save()
-
-    print(f"Created {group.name} group with {len(group.articles)} articles")
-
 
 if __name__ == "__main__":
     fire.Fire(create_samples)
