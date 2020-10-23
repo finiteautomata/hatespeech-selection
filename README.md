@@ -54,11 +54,9 @@ python manage.py runserver
 
 ## Selection of news
 
-1. First, run select news
+1. First, select news
 
-```
-python bin/select_news <DATABASE_NAME>
-```
+Run `notebooks/Sampling with Seeds.ipynb`
 
 2. Dump
 
