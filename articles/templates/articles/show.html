@@ -36,27 +36,14 @@
 
 
 
-{% if user.is_superuser %}
-
-<div class="row">
-  <form action="{% url 'articles:show' article.slug %}" method="put" onsubmit="submitDescriptionForm(event)">
-    <label for="description"> Descripción interna </label>
-    <input type="text" name="description" value="{{article.description|default:''}}"/>
-    <br/>
-    <input type="submit"/>
-  </form>
-
-</div>
-
-{% else %}
 <div class="row">
   {{ article.description | default:''}}
 </div>
 
-{% endif %}
 
 
 <p> {{article.created_at}} </p>
+<p> {{article.id}} </p>
 <p> {{article.tweet_id}} </p>
 
 <blockquote class="twitter-tweet"><p lang="es" dir="ltr"> {{article.text}} <a href="https://twitter.com/user/status/{{article.tweet_id}}?ref_src=twsrc%5Etfw">August 3, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
