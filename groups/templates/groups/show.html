@@ -5,8 +5,10 @@
 
 <script src="{% static 'labels/csrf.js' %}" type="text/javascript"> </script>
 <script src="{% static 'groups/groups.js' %}" type="text/javascript"> </script>
-
-
+<script src="{% static 'groups/tablesort.js' %}" type="text/javascript"> </script>
+<script src="{% static 'groups/tablesort.number.js' %}" type="text/javascript"> </script>
+<script src="{% static 'groups/tablesort.date.js' %}" type="text/javascript"> </script>
+<link rel="stylesheet" href="{% static 'groups/tablesort.css' %}">
 {% endblock %}
 
 
@@ -27,14 +29,16 @@
 <h2> Grupo {{current_group.name}} </h2>
 
 <ul>
-<table>
+
+<table class="sort" id="articles-table">
   <thead>
-      <th> Fecha </th>
-      <th> User </th>
-      <th> #Comentarios </th>
-      <th> Título </th>
-      <th> Descripción </th>
-      <th> Acciones </th>
+      <th data-sort-method="date"> Fecha </th>
+      <th data-sort-method="none"> User </th>
+      <th data-sort-method="none"> #Comentarios </th>
+      <th data-sort-method="none"> Título </th>
+      <th data-sort-method="number"> Votos </th>
+      <th data-sort-method="none"> Descripción </th>
+      <th data-sort-method="none"> Acciones </th>
   </thead>
 
 {% for article in articles %}
@@ -43,6 +47,7 @@
   <td> {{article.user}} </td>
   <td> {{article.comments | length }} </td>
   <td> <a href="{% url 'articles:show' article.slug %}?group={{current_group.name}}">{{article.title}} </a> </td>
+  <td> {{article.votes|default:''}}</td>
   <td> {{article.description|default:''}}</td>
   <td>
     {% if user.is_superuser %}
@@ -54,4 +59,12 @@
 </tr>
 {% endfor %}
 </table>
+
+
+
+<script>
+  var table = document.getElementById('articles-table');
+  var sort = new Tablesort(table);
+</script>
+
 {% endblock %}
