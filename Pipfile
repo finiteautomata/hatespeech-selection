@@ -14,7 +14,7 @@ jupyterlab = "*"
 pylint-django = "*"
 
 [packages]
-django = "==2.2.13"
+django = "==2.2.28"
 hatespeech-models = {editable = true,path = "./hatespeech-models"}
 djongo = "*"
 blinker = "*"
